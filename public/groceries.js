@@ -22,9 +22,10 @@ const groceriesRead = function () {
       const tr = document.getElementById('tr-template-groceries').cloneNode(true);
       tbody.appendChild(tr);
       document.getElementsByName('groceries-name')[index].innerHTML = grocery.name;
-      document.getElementsByName('groceries-age')[index].value = grocery.age;
+      document.getElementsByName('groceries-enter')[index].innerHTML = grocery.enter;
+      document.getElementsByName('groceries-expire')[index].value = grocery.expire;
       document.getElementsByName('groceries-key')[index].value = key;
-      document.getElementsByName('groceries-update')[index].index = index;
+      // document.getElementsByName('groceries-update')[index].index = index;
       document.getElementsByName('groceries-delete')[index].index = index;
       index++;
     }
