@@ -25,7 +25,7 @@ const groceriesRead = function () {
       document.getElementsByName('groceries-enter')[index].innerHTML = grocery.enter;
       document.getElementsByName('groceries-expire')[index].value = grocery.expire;
       document.getElementsByName('groceries-key')[index].value = key;
-      // document.getElementsByName('groceries-update')[index].index = index;
+      document.getElementsByName('groceries-expire')[index].index = index;
       document.getElementsByName('groceries-delete')[index].index = index;
       index++;
     }
@@ -44,7 +44,9 @@ const groceriesUpdate = function (index) {
   const groceryUpdate = {}
   groceryUpdate[document.getElementsByName('groceries-key')[index].value] = {
     name: document.getElementsByName('groceries-name')[index].innerHTML,
-    age: document.getElementsByName('groceries-age')[index].value
+    enter: document.getElementsByName('groceries-enter')[index].innerHTML,
+    expire: document.getElementsByName('groceries-expire')[index].value
+
   };
   axios.patch('https://be-gooroom-default-rtdb.firebaseio.com/groceries.json', groceryUpdate).then(function (response) {
     console.log('Done groceriesUpdate', response.data);
