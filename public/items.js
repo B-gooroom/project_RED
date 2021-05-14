@@ -10,6 +10,7 @@ const itemsRead = function () {
       const item = items[key];
       const tr = document.getElementById('tr-template-items').cloneNode(true);
       tbody.appendChild(tr);
+      document.getElementsByName('items-number')[index].innerHTML = index + 1;
       document.getElementsByName('items-name')[index].innerHTML = item.name;
       document.getElementsByName('items-enter')[index].innerHTML = item.enter;
       document.getElementsByName('items-expire')[index].value = item.expire;
