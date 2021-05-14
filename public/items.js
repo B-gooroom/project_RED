@@ -1,5 +1,4 @@
 
-
 const itemsRead = function () {
   axios.get('https://be-gooroom-default-rtdb.firebaseio.com/items.json').then(function (response) {
     console.log('Done itemsRead', response.data);
