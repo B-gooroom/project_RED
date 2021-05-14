@@ -15,6 +15,7 @@ const itemsRead = function () {
       document.getElementsByName('items-expire')[index].value = item.expire;
       document.getElementsByName('items-key')[index].value = key;
       document.getElementsByName('items-expire')[index].index = index;
+      document.getElementsByName('items-update')[index].index = index;
       document.getElementsByName('items-delete')[index].index = index;
       index++;
     }

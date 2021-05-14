@@ -75,7 +75,7 @@
                 <td name="items-enter">2021-01-01</td>
                 <td name="items-expire">2021-02-02</td>
                 <td class="td-update">
-                  <button class="button-update" onclick="modalToggle();"><span class="material-icons">edit_note</span></button>
+                  <button class="button-update" name="items-update" onclick="modalToggle(index);"><span class="material-icons">edit_note</span></button>
                 </td>
                 <td class="td-delete">
                   <button class="button-delete" name="items-delete" onclick="itemsDelete(index)"><span class="material-icons">delete</span></button>
@@ -123,8 +123,11 @@
 </body>
 </html>
 <script>
-const modalToggle = function() {
+const modalToggle = function(index) {
   document.body.classList.toggle('o-hidden');
   document.getElementsByClassName('modal-background')[0].classList.toggle('active');
+  document.getElementsByName('item-name')[0].value = document.getElementsByName('items-name')[index].innerHTML
+  document.getElementsByName('item-enter')[0].value = document.getElementsByName('items-enter')[index].innerHTML
+  document.getElementsByName('item-expire')[0].value = document.getElementsByName('items-expire')[index].innerHTML
 }
 </script>
