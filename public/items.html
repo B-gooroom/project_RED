@@ -115,7 +115,7 @@
         </table>
         <div class="modal-footer">
           <button class="button-close" onclick="modalToggle(); return false;"><span class="material-icons">close</span></button>
-          <button class="button-update" onclick="return false;"><span class="material-icons">edit_note</span></button>
+          <button class="button-update" onclick="itemsUpdate(); return false;"><span class="material-icons">edit_note</span></button>
         </div>
       </form>
     </div>
@@ -126,8 +126,12 @@
 const modalToggle = function(index) {
   document.body.classList.toggle('o-hidden');
   document.getElementsByClassName('modal-background')[0].classList.toggle('active');
-  document.getElementsByName('item-name')[0].value = document.getElementsByName('items-name')[index].innerHTML
-  document.getElementsByName('item-enter')[0].value = document.getElementsByName('items-enter')[index].innerHTML
-  document.getElementsByName('item-expire')[0].value = document.getElementsByName('items-expire')[index].innerHTML
+  if (index !== undefined) {
+    window.index = index
+    // document.getElementsByName('item-key')[0].value = index
+    document.getElementsByName('item-name')[0].value = document.getElementsByName('items-name')[index].innerHTML
+    document.getElementsByName('item-enter')[0].value = document.getElementsByName('items-enter')[index].innerHTML
+    document.getElementsByName('item-expire')[0].value = document.getElementsByName('items-expire')[index].innerHTML
+  }
 }
 </script>

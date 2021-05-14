@@ -30,17 +30,18 @@ const itemsDelete = function (index) {
   });
 };
 
-const itemsUpdate = function (index) {
+const itemsUpdate = function () {
   const itemUpdate = {}
-  itemUpdate[document.getElementsByName('items-key')[index].value] = {
-    name: document.getElementsByName('items-name')[index].innerHTML,
-    enter: document.getElementsByName('items-enter')[index].innerHTML,
-    expire: document.getElementsByName('items-expire')[index].value
+  itemUpdate[document.getElementsByName('items-key')[window.index].value] = {
+    name: document.getElementsByName('item-name')[0].value,
+    enter: document.getElementsByName('item-enter')[0].value,
+    expire: document.getElementsByName('item-expire')[0].value
 
   };
   axios.patch('https://be-gooroom-default-rtdb.firebaseio.com/items.json', itemUpdate).then(function (response) {
     console.log('Done itemsUpdate', response.data);
     itemsRead();
+    modalToggle();
   });
 };
 itemsRead();
