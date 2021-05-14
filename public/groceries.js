@@ -10,6 +10,17 @@ const groceriesCreate = function () {
   });
 };
 
+const itemsCreate = function (index) {
+  const item = {
+    name: document.getElementsByName('groceries-name')[index].innerHTML,
+    enter: document.getElementsByName('groceries-enter')[index].innerHTML,
+    expire: document.getElementsByName('groceries-expire')[index].value
+  };
+  axios.post('https://be-gooroom-default-rtdb.firebaseio.com/items.json', item).then(function (response) {
+    console.log('Done itemsCreate', response.data);
+  });
+};
+
 const groceriesRead = function () {
   axios.get('https://be-gooroom-default-rtdb.firebaseio.com/groceries.json').then(function (response) {
     console.log('Done groceriesRead', response.data);
@@ -27,6 +38,7 @@ const groceriesRead = function () {
       document.getElementsByName('groceries-key')[index].value = key;
       document.getElementsByName('groceries-expire')[index].index = index;
       document.getElementsByName('groceries-delete')[index].index = index;
+      document.getElementsByName('items-create')[index].index = index;
       index++;
     }
   });
