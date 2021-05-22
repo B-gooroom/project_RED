@@ -1,8 +1,9 @@
 const url = new URL(window.location);
 const queryString = url.searchParams;
 const q = queryString.get('q');
-const orderName = queryString.get('orderName');
-const orderType = queryString.get('orderType');
+const orderName = queryString.get('orderName') || 'name';
+const orderType = queryString.get('orderType') || 'asc';
+document.getElementById(orderName + '-' + orderType).classList.add('active');
 
 const itemsRead = function () {
   axios.get('https://be-gooroom-default-rtdb.firebaseio.com/items.json').then(function (response) {
@@ -17,6 +18,7 @@ const itemsRead = function () {
     items = _.orderBy(items, orderName, orderType);
     console.log(items)
     let index = 0;
+
     for (let key in items) {
       const item = items[key];
       if (q && item.name.indexOf(q) < 0) continue;
