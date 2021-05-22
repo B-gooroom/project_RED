@@ -1,3 +1,6 @@
+const url = new URL(window.location);
+const queryString = url.searchParams;
+const q = queryString.get('q');
 
 const itemsRead = function () {
   axios.get('https://be-gooroom-default-rtdb.firebaseio.com/items.json').then(function (response) {
@@ -8,6 +11,7 @@ const itemsRead = function () {
     let index = 0;
     for (let key in items) {
       const item = items[key];
+      if (q && item.name.indexOf(q) < 0) continue;
       const tr = document.getElementById('tr-template-items').cloneNode(true);
       tbody.appendChild(tr);
       document.getElementsByName('items-number')[index].innerHTML = index + 1;
