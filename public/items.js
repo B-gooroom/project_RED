@@ -3,13 +3,15 @@ const queryString = url.searchParams;
 const q = queryString.get('q');
 const orderName = queryString.get('orderName') || 'name';
 const orderType = queryString.get('orderType') || 'asc';
-document.getElementById(orderName + '-' + orderType).classList.add('active');
+if (document.getElementById(orderName + '-' + orderType)) {
+  document.getElementById(orderName + '-' + orderType).classList.add('active');
+}
 
 const itemsRead = function () {
   axios.get('https://be-gooroom-default-rtdb.firebaseio.com/items.json').then(function (response) {
     console.log('Done itemsRead', response.data);
     let items = response.data;
-    const tbody = document.getElementById('tbody-items');
+    const tbody = document.getElementById('tbody-items') || {};
     tbody.innerHTML = '';
     for (let key in items) {
       const item = items[key];
@@ -23,6 +25,7 @@ const itemsRead = function () {
       const item = items[key];
       if (moment().format('YYYY-MM-DD') > item.expire) count++;
       if (q && item.name.indexOf(q) < 0) continue;
+      if (!document.getElementById('tr-template-items')) continue;
       const tr = document.getElementById('tr-template-items').cloneNode(true);
       tbody.appendChild(tr);
       document.getElementsByName('items-number')[index].innerHTML = index + 1;
