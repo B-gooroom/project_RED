@@ -1,13 +1,21 @@
 const url = new URL(window.location);
 const queryString = url.searchParams;
 const q = queryString.get('q');
+const orderName = queryString.get('orderName');
+const orderType = queryString.get('orderType');
 
 const itemsRead = function () {
   axios.get('https://be-gooroom-default-rtdb.firebaseio.com/items.json').then(function (response) {
     console.log('Done itemsRead', response.data);
-    const items = response.data;
+    let items = response.data;
     const tbody = document.getElementById('tbody-items');
     tbody.innerHTML = '';
+    for (let key in items) {
+      const item = items[key];
+      item.k = key
+    }
+    items = _.orderBy(items, orderName, orderType);
+    console.log(items)
     let index = 0;
     for (let key in items) {
       const item = items[key];
@@ -17,8 +25,8 @@ const itemsRead = function () {
       document.getElementsByName('items-number')[index].innerHTML = index + 1;
       document.getElementsByName('items-name')[index].innerHTML = item.name;
       document.getElementsByName('items-enter')[index].innerHTML = item.enter;
-      document.getElementsByName('items-expire')[index].value = item.expire;
-      document.getElementsByName('items-key')[index].value = key;
+      document.getElementsByName('items-expire')[index].innerHTML = item.expire;
+      document.getElementsByName('items-key')[index].value = item.k;
       document.getElementsByName('items-expire')[index].index = index;
       document.getElementsByName('items-update')[index].index = index;
       document.getElementsByName('items-delete')[index].index = index;
