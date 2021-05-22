@@ -1,3 +1,12 @@
+// const url = new URL(window.location);
+// const queryString = url.searchParams;
+// const q = queryString.get('q');
+// const orderName = queryString.get('orderName') || 'name';
+// const orderType = queryString.get('orderType') || 'asc';
+// if (document.getElementById(orderName + '-' + orderType)) {
+//   document.getElementById(orderName + '-' + orderType).classList.add('active');
+// }
+
 const groceriesCreate = function () {
   const grocery = {
     name: document.getElementsByName('grocery-name')[0].value,
@@ -24,9 +33,11 @@ const itemsCreate = function (index) {
 const groceriesRead = function () {
   axios.get('https://be-gooroom-default-rtdb.firebaseio.com/groceries.json').then(function (response) {
     console.log('Done groceriesRead', response.data);
-    const groceries = response.data;
+    let groceries = response.data;
     const tbody = document.getElementById('tbody-groceries');
     tbody.innerHTML = '';
+    groceries = _.orderBy(groceries, orderName, orderType);
+    console.log(groceries);
     let index = 0;
     for (let key in groceries) {
       const grocery = groceries[key];
@@ -66,3 +77,4 @@ const groceriesUpdate = function (index) {
   });
 };
 groceriesRead();
+// itemsRead('groceries');
