@@ -18,9 +18,10 @@ const itemsRead = function () {
     items = _.orderBy(items, orderName, orderType);
     console.log(items)
     let index = 0;
-
+    let count = 0;
     for (let key in items) {
       const item = items[key];
+      if (moment().format('YYYY-MM-DD') > item.expire) count++;
       if (q && item.name.indexOf(q) < 0) continue;
       const tr = document.getElementById('tr-template-items').cloneNode(true);
       tbody.appendChild(tr);
@@ -34,6 +35,7 @@ const itemsRead = function () {
       document.getElementsByName('items-delete')[index].index = index;
       index++;
     }
+    document.getElementById('menu-items-couter').innerHTML = count
   });
 };
 
