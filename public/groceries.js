@@ -45,32 +45,48 @@ const itemsCreate = function (event, index) {
 };
 
 const groceriesRead = function () {
-  axios.get('https://be-gooroom-default-rtdb.firebaseio.com/groceries.json').then(function (response) {
-    console.log('Done groceriesRead', response.data);
-    let groceries = response.data;
-    const tbody = document.getElementById('tbody-groceries');
-    tbody.innerHTML = '';
-    for (let key in groceries) {
-      const grocery = groceries[key];
-      grocery.k = key
-    }
-    groceries = _.orderBy(groceries, orderName, orderType);
-    console.log(groceries);
-    let index = 0;
-    for (let key in groceries) {
-      const grocery = groceries[key];
-      const tr = document.getElementById('tr-template-groceries').cloneNode(true);
-      tbody.appendChild(tr);
-      document.getElementsByName('groceries-name')[index].innerHTML = grocery.name;
-      document.getElementsByName('groceries-enter')[index].innerHTML = grocery.enter;
-      document.getElementsByName('groceries-expire')[index].value = grocery.expire;
-      document.getElementsByName('groceries-key')[index].value = grocery.k;
-      document.getElementsByName('groceries-expire')[index].index = index;
-      document.getElementsByName('groceries-delete')[index].index = index;
-      document.getElementsByName('items-create')[index].index = index;
-      index++;
-    }
+  promise[1] = new Promise(function (resolve, reject) {
+    axios.get('https://be-gooroom-default-rtdb.firebaseio.com/groceries.json').then(function (response) {
+      console.log('Done groceriesRead', response.data);
+      let groceries = response.data;
+      const tbody = document.getElementById('tbody-groceries');
+      tbody.innerHTML = '';
+      for (let key in groceries) {
+        const grocery = groceries[key];
+        grocery.k = key
+      }
+      groceries = _.orderBy(groceries, orderName, orderType);
+      console.log(groceries);
+      let index = 0;
+      for (let key in groceries) {
+        const grocery = groceries[key];
+        const tr = document.getElementById('tr-template-groceries').cloneNode(true);
+        tbody.appendChild(tr);
+        document.getElementsByName('groceries-name')[index].innerHTML = grocery.name;
+        document.getElementsByName('groceries-enter')[index].innerHTML = grocery.enter;
+        document.getElementsByName('groceries-expire')[index].value = grocery.expire;
+        document.getElementsByName('groceries-key')[index].value = grocery.k;
+        document.getElementsByName('groceries-expire')[index].index = index;
+        document.getElementsByName('groceries-delete')[index].index = index;
+        document.getElementsByName('items-create')[index].index = index;
+        index++;
+      }
+      resolve(groceries);
+    });
   });
+  Promise.all(promise).then(function (result) {
+    for (let g in result[1]) {
+      const grocery = result[1][g];
+      for (let i in result[0]) {
+        const item = result[0][i];
+        if (grocery.k === item.k) {
+          document.getElementsByName('items-create')[g].checked = true
+        }
+      }
+    }
+  }).catch(function (error) {
+    console.error(error);
+  })
 };
 
 const groceriesDelete = function (index) {
