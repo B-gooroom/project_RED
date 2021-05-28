@@ -19,22 +19,29 @@ const groceriesCreate = function () {
   });
 };
 
-const itemsCreate = function (index) {
+const itemsCreate = function (event, index) {
   // const item = {
   //   name: document.getElementsByName('groceries-name')[index].innerHTML,
   //   enter: document.getElementsByName('groceries-enter')[index].innerHTML,
   //   expire: document.getElementsByName('groceries-expire')[index].value
   // };
-  debugger
-  const groceryUpdate = {}
-  groceryUpdate[document.getElementsByName('groceries-key')[index].value] = {
-    name: document.getElementsByName('groceries-name')[index].innerHTML,
-    enter: document.getElementsByName('groceries-enter')[index].innerHTML,
-    expire: document.getElementsByName('groceries-expire')[index].value
-  };
-  axios.patch('https://be-gooroom-default-rtdb.firebaseio.com/items.json', groceryUpdate).then(function (response) {
-    console.log('Done itemsCreate', response.data);
-  });
+  console.log(event)
+  if (event.target.checked) {
+    const groceryUpdate = {}
+    groceryUpdate[document.getElementsByName('groceries-key')[index].value] = {
+      name: document.getElementsByName('groceries-name')[index].innerHTML,
+      enter: document.getElementsByName('groceries-enter')[index].innerHTML,
+      expire: document.getElementsByName('groceries-expire')[index].value
+    };
+    axios.patch('https://be-gooroom-default-rtdb.firebaseio.com/items.json', groceryUpdate).then(function (response) {
+      console.log('Done itemsCreate', response.data);
+    });
+  } else {
+    const key = document.getElementsByName('groceries-key')[index].value;
+    axios.delete('https://be-gooroom-default-rtdb.firebaseio.com/items/' + key + '.json').then(function (response) {
+      console.log('Done itemsDelete', response.data);
+    });
+  }
 };
 
 const groceriesRead = function () {
@@ -51,7 +58,6 @@ const groceriesRead = function () {
     console.log(groceries);
     let index = 0;
     for (let key in groceries) {
-      debugger
       const grocery = groceries[key];
       const tr = document.getElementById('tr-template-groceries').cloneNode(true);
       tbody.appendChild(tr);
